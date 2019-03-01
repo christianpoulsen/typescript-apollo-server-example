@@ -7,7 +7,7 @@
         "moduleResolution": "node", // TypeScript attempts to mimic Node's module resolution strategy.
         "removeComments": true,     // Remove all comments except copy-right header comments beginning with /*!
         "preserveConstEnums": true, // Preserve const enum declarations in generated code
-        "outDir": "dist",           // Location to output .js files after compilation
+        "outDir": "build",           // Location to output .js files after compilation
         "sourceMap": true,          // We want source maps to be output along side our JavaScript.
         "baseUrl": ".",
         "paths": {

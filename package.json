@@ -5,12 +5,12 @@
   "author": "Christian Poulsen",
   "license": "ISC",
   "scripts": {
-    "start:app": "node src/app.ts",
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "build-ts": "tsc",
     "tslint": "tslint -c tslint.json 'src/**/*.ts'",
-    "serve": "node dist/app.js"
+    "serve": "node build/server.js",
+    "dev": "npm run build-ts && npm run serve"
   },
   "dependencies": {
     "apollo-datasource": "^0.3.1",
