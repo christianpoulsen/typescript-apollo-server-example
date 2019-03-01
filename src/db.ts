@@ -1,35 +1,28 @@
-import { ConnectionConfig, createConnection, createPool, PoolConnection } from "mysql";
+import { ConnectionConfig, createPool, MysqlError, Pool, PoolConnection, Query } from "mysql";
 
 const dbConfig: ConnectionConfig = {
+  database: "testDB",
   host: process.env.RDS_HOSTNAME,
   password: process.env.RDS_PASSWORD,
   port: Number(process.env.RDS_PORT),
   user: process.env.RDS_USERNAME,
 };
 
-export const dbPool = createPool(dbConfig);
+export const dbPool: Pool = createPool(dbConfig);
 
-console.log(process.env.RDS_USERNAME);
-
-export const dbConnection = (query: string) => {
-  dbPool.getConnection((err: any, connection: any) => {
-    if (err) {
-      return console.error(err);
-    }
-
-    console.log("CONNECTED!");
-
-    connection.query(query, (error: any, results: any, fields: any) => {
-      //  When done with the connection, release it.
-      console.log("QUERY DONE");
-      connection.release();
-
-      // Handle error after the release.
-      if (error) {
-        throw error;
+export const dbQuery = async (query: string) => {
+  return new Promise((resolve: any, reject: any) => {
+    dbPool.getConnection((err: MysqlError, connection: PoolConnection) => {
+      if (err) {
+        throw reject(err);
       }
+      connection.query(query, (error: MysqlError, results: Query, fields: Query) => {
+        connection.release();
+        if (error) {
+          throw reject(error);
+        }
+        resolve(results);
+      });
     });
   });
 };
-
-// dbPool.end();
