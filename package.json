@@ -16,11 +16,12 @@
     "apollo-datasource": "^0.3.1",
     "apollo-server": "^2.4.8",
     "graphql": "^14.1.1",
-    "mysql": "^2.16.0"
+    "mysql2": "^1.6.5",
+    "sequelize": "^4.42.1"
   },
   "devDependencies": {
+    "@types/sequelize": "^4.27.38",
     "@types/graphql": "^14.0.7",
-    "@types/mysql": "^2.15.5",
     "@types/node": "^11.9.6",
     "ts-node": "^8.0.2",
     "tslint": "^5.13.1",

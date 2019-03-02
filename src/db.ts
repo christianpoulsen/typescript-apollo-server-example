@@ -1,28 +1,45 @@
-import { ConnectionConfig, createPool, MysqlError, Pool, PoolConnection, Query } from "mysql";
+import SQL from "sequelize";
 
-const dbConfig: ConnectionConfig = {
-  database: "testDB",
-  host: process.env.RDS_HOSTNAME,
-  password: process.env.RDS_PASSWORD,
-  port: Number(process.env.RDS_PORT),
-  user: process.env.RDS_USERNAME,
+const createStore = () => {
+    const Op = SQL.Op;
+    const operatorsAliases = {};
+
+    const db = new SQL(
+        "testDB",
+        process.env.RDS_USERNAME,
+        process.env.RDS_PASSWORD,
+        {
+            dialect: "mysql",
+            host: process.env.RDS_HOSTNAME,
+            logging: false,
+            operatorsAliases,
+            port: Number(process.env.RDS_PORT),
+        },
+    );
+
+    db.authenticate()
+        .then(() => {
+            console.log("Connection has been established successfully.");
+        })
+        .catch((err: SQL.ConnectionError) => {
+            console.error("Unable to connect to the database:", err);
+        });
+
+    const products = db.define("product", {
+        id: {
+            autoIncrement: true,
+            primaryKey: true,
+            type: SQL.INTEGER,
+        },
+        name: SQL.STRING,
+        price: SQL.DECIMAL,
+        quantity: SQL.INTEGER,
+    }, {
+            createdAt: false,
+            updatedAt: false,
+        });
+
+    return { products };
 };
 
-export const dbPool: Pool = createPool(dbConfig);
-
-export const dbQuery = async (query: string) => {
-  return new Promise((resolve: any, reject: any) => {
-    dbPool.getConnection((err: MysqlError, connection: PoolConnection) => {
-      if (err) {
-        throw reject(err);
-      }
-      connection.query(query, (error: MysqlError, results: Query, fields: Query) => {
-        connection.release();
-        if (error) {
-          throw reject(error);
-        }
-        resolve(results);
-      });
-    });
-  });
-};
+export default createStore;
