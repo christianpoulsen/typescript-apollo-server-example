@@ -10,4 +10,4 @@ Then to build and start, run:
 <code>npm run dev</code>
 
 
-This should install the necessary packages, build and compile the typescript code to javascript and then have node run our builed project.
+This should install the necessary packages, build and compile the typescript code to javascript and then have NodeJS run our builed project.
