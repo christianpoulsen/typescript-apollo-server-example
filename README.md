@@ -1,5 +1,15 @@
 # A TypeScript Apollo Server example
 
+The server connects to a MySQL database hosted by AWS's RDS service. So before you can connect, you need to set the needed environment variables:
+
+<code>RDS_HOSTNAME</code>
+
+<code>RDS_USERNAME</code>
+
+<code>RDS_PASSWORD</code>
+
+<code>RDS_PORT</code>
+
 Start by running:
 
 <code>npm install</code>
